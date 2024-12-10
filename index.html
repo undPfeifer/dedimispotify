@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Supabase Music Player</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #songList {
+            margin-top: 20px;
+        }
+        .song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .song-item:hover {
+            background-color: #f0f0f0;
+        }
+        #currentPlaying {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Supabase Music Player</h1>
+    <div id="currentPlaying"></div>
+    <audio id="audioPlayer" controls style="width: 100%;"></audio>
+    <div id="songList"></div>
+
+    <script>
+        // Supabase Configuration (REPLACE WITH YOUR OWN)
+        const SUPABASE_URL = 'https://kifdamniffzvjqrioqic.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA ';
+
+        // Initialize Supabase Client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const songList = document.getElementById('songList');
+        const currentPlaying = document.getElementById('currentPlaying');
+
+        // Function to load and display songs
+        async function loadSongs() {
+            try {
+                // List files in the 'music' bucket
+                const { data, error } = await supabase.storage
+                    .from('music')
+                    .list();
+
+                if (error) {
+                    console.error('Error listing songs:', error);
+                    return;
+                }
+
+                songList.innerHTML = ''; // Clear existing list
+                
+                for (let file of data) {
+                    // Get public URL for each song
+                    const { data: urlData } = supabase.storage
+                        .from('music')
+                        .getPublicUrl(file.name);
+
+                    const songItem = document.createElement('div');
+                    songItem.classList.add('song-item');
+                    
+                    // Extract filename (remove extension)
+                    const songName = file.name.replace(/\.[^/.]+$/, "");
+                    
+                    songItem.innerHTML = `
+                        <span>${songName}</span>
+                        <span>${formatFileSize(file.metadata.size)}</span>
+                    `;
+
+                    songItem.addEventListener('click', () => {
+                        audioPlayer.src = urlData.publicUrl;
+                        audioPlayer.play();
+                        currentPlaying.textContent = `Now Playing: ${songName}`;
+                    });
+
+                    songList.appendChild(songItem);
+                }
+            } catch (err) {
+                console.error('Unexpected error:', err);
+            }
+        }
+
+        // Utility function to format file size
+        function formatFileSize(bytes) {
+            if(bytes < 1024) return bytes + ' bytes';
+            else if(bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            else return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+
+        // Load songs when page loads
+        loadSongs();
+
+        // Optional: Refresh song list button
+        const refreshButton = document.createElement('button');
+        refreshButton.textContent = 'Refresh Song List';
+        refreshButton.addEventListener('click', loadSongs);
+        document.body.insertBefore(refreshButton, songList);
+    </script>
+</body>
+</html>
