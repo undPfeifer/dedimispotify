@@ -25,38 +25,146 @@
         .song-item:hover {
             background-color: #f0f0f0;
         }
+        .song-item.playing {
+            background-color: #d0f0d0;
+            font-weight: bold;
+        }
         #currentPlaying {
             margin-top: 20px;
             text-align: center;
             font-weight: bold;
+        }
+        .progressContainer {
+            height: 6px;
+            width: 100%;
+            background-color: yellow;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .progressBar {
+            height: 6px;
+            width: 0;
+            background-color: blueviolet;
+        }
+        .playButton {
+            margin-top: 10px;
+            height: 20px;
+            width: 20px;
+            background-color: white;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .download-button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .download-button a {
+            color: white;
+            text-decoration: none;
+        }
+        .download-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <h1>Supabase Music Player</h1>
     <div id="currentPlaying"></div>
-    <audio id="audioPlayer" controls style="width: 100%;"></audio>
+    <div id="audioDiv">
+        <div class="progressContainer">
+            <div class="progressBar"></div>
+        </div>
+        <div class="playButton"></div>
+    </div>
     <div id="songList"></div>
 
     <script>
         // Supabase Configuration (REPLACE WITH YOUR OWN)
         const SUPABASE_URL = 'https://kifdamniffzvjqrioqic.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA ';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA';
 
         // Initialize Supabase Client
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        const audioPlayer = document.getElementById('audioPlayer');
+        const audioDiv = document.getElementById('audioDiv');
         const songList = document.getElementById('songList');
         const currentPlaying = document.getElementById('currentPlaying');
+        const progressBar = document.querySelector('.progressBar');
+        const progressContainer = document.querySelector('.progressContainer');
+        const playButton = document.querySelector('.playButton');
+
+        let currentAudio = null; // Keep track of the current audio instance
+        let currentSongItem = null; // Keep track of the currently highlighted song
+
+        // Function to create custom audio player controls
+        function setupAudioPlayer(audioSrc, songItem) {
+            // Stop and clear the previous audio instance
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                progressBar.style.width = '0';
+                playButton.style.backgroundColor = 'blue';
+                playButton.style.borderRadius = '0%';
+            }
+
+            // Remove highlight from the previous song item
+            if (currentSongItem) {
+                currentSongItem.classList.remove('playing');
+            }
+
+            // Highlight the currently playing song item
+            currentSongItem = songItem;
+            currentSongItem.classList.add('playing');
+
+            // Create a new audio instance
+            const audio = new Audio(audioSrc);
+            currentAudio = audio;
+
+            audio.addEventListener('timeupdate', () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+            });
+
+            progressContainer.addEventListener('click', (event) => {
+                const width = progressContainer.offsetWidth;
+                const clickX = event.offsetX;
+                const duration = audio.duration;
+
+                audio.currentTime = (clickX / width) * duration;
+            });
+
+            playButton.onclick = () => {
+                if (audio.paused) {
+                    audio.play();
+                    playButton.style.backgroundColor = 'red';
+                    playButton.style.borderRadius = '100%';
+                } else {
+                    audio.pause();
+                    playButton.style.backgroundColor = 'blue';
+                    playButton.style.borderRadius = '0%';
+                }
+            };
+
+            audio.addEventListener('ended', () => {
+                playButton.style.backgroundColor = 'blue';
+                playButton.style.borderRadius = '0%';
+                if (currentSongItem) {
+                    currentSongItem.classList.remove('playing');
+                }
+            });
+
+            return audio;
+        }
 
         // Function to load and display songs
         async function loadSongs() {
             try {
-                // List files in the 'music' bucket
-                const { data, error } = await supabase.storage
-                    .from('music')
-                    .list();
+                const { data, error } = await supabase.storage.from('music').list();
 
                 if (error) {
                     console.error('Error listing songs:', error);
@@ -66,26 +174,26 @@
                 songList.innerHTML = ''; // Clear existing list
                 
                 for (let file of data) {
-                    // Get public URL for each song
-                    const { data: urlData } = supabase.storage
-                        .from('music')
-                        .getPublicUrl(file.name);
+                    const { data: urlData } = supabase.storage.from('music').getPublicUrl(file.name);
 
                     const songItem = document.createElement('div');
                     songItem.classList.add('song-item');
                     
-                    // Extract filename (remove extension)
                     const songName = file.name.replace(/\.[^/.]+$/, "");
                     
                     songItem.innerHTML = `
                         <span>${songName}</span>
-                        <span>${formatFileSize(file.metadata.size)}</span>
+                        <button class="download-button">
+                            <a href="${urlData.publicUrl}" download="${file.name}">Download</a>
+                        </button>
                     `;
 
                     songItem.addEventListener('click', () => {
-                        audioPlayer.src = urlData.publicUrl;
-                        audioPlayer.play();
                         currentPlaying.textContent = `Now Playing: ${songName}`;
+                        setupAudioPlayer(urlData.publicUrl, songItem);
+                        currentAudio.play();
+                        playButton.style.backgroundColor = 'red';
+                        playButton.style.borderRadius = '100%';
                     });
 
                     songList.appendChild(songItem);
@@ -95,21 +203,8 @@
             }
         }
 
-        // Utility function to format file size
-        function formatFileSize(bytes) {
-            if(bytes < 1024) return bytes + ' bytes';
-            else if(bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-            else return (bytes / 1048576).toFixed(1) + ' MB';
-        }
-
         // Load songs when page loads
         loadSongs();
-
-        // Optional: Refresh song list button
-        const refreshButton = document.createElement('button');
-        refreshButton.textContent = 'Refresh Song List';
-        refreshButton.addEventListener('click', loadSongs);
-        document.body.insertBefore(refreshButton, songList);
     </script>
 </body>
 </html>
