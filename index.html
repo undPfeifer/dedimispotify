@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <title>Supabase Music Player</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        * { 
-            color: #f0f0f0;
-        font-size: 20px;
-            
+   <style>
         
-        }
+        @font-face {
+        font-family: 'MonumentGrotesk';
+        src: url('MonumentGrotesk-Bold.otf') format('opentype');
+    }
+        * { 
+            
+            font-size: 4vw;
+            font-weight: 900;
+            font-family: 'MonumentGrotesk'
+            }
+            
 
         body {
-            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-family: 'MonumentGrotesk'
             max-width: none;
             margin: 0 auto;
             padding: 20px;
@@ -22,16 +28,33 @@
         }
         #songList {
             margin-top: 20px;
+
+        }
+
+        .songList {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 95%;
+            
+           
+            background-color: black;
         }
         .song-item {
+            color: #d6d6d6;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px;
             cursor: pointer;
+            border-bottom: 1px solid rgb(154, 154, 154);
+
+            
         }
         .song-item:hover {
-            color: blue;
+            color: white;
         }
         .song-item.playing {
             color: red;
@@ -45,6 +68,7 @@
         .progressContainer {
             height: 8px;
             width: 100%;
+            max-width: 400px;
             background-color: yellow;
             cursor: pointer;
             margin-top: 10px;
@@ -63,6 +87,7 @@
             display: inline-block;
         }
         .download-button {
+            font-size: 14px;
             padding: 5px 10px;
             background-color: black;
             color: white;
@@ -72,13 +97,24 @@
             margin-left: 10px;
         }
         .download-button a {
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 200;
             color: white;
             text-decoration: none;
         }
         .download-button:hover {
             background-color: red;
         }
-    </style>
+        .headline {
+            font-family: 'MonumentGrotesk';
+            text-transform: lowercase;
+            font-size: 3vw;
+            margin: 0px;
+        }
+        .audioDiv {
+
+        }
 </head>
 <body>
     <h1> </h1>
