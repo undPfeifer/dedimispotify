@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <title>Supabase Music Player</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-   <style>
+       <style>
         
         @font-face {
         font-family: 'MonumentGrotesk';
         src: url('MonumentGrotesk-Bold.otf') format('opentype');
     }
         * { 
-            color:white;
+            
             font-size: 4vw;
             font-weight: 900;
             font-family: 'MonumentGrotesk';
@@ -32,12 +32,9 @@
         }
 
         .songList {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
 
-            width: 95%;
+
+            width: 100%;
             
            
             background-color: black;
@@ -87,7 +84,8 @@
             display: inline-block;
         }
         .download-button {
-            font-size: 14px;
+            font-size: 12px;
+            font-family: 'Courier New', Courier, monospace;
             padding: 5px 10px;
             background-color: black;
             color: white;
@@ -97,7 +95,10 @@
             margin-left: 10px;
         }
         .download-button a {
-            text-transform: uppercase;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 300;
+
+            text-transform: lowercase;
             font-size: 16px;
             font-weight: 200;
             color: white;
@@ -115,6 +116,7 @@
         .audioDiv {
 
         }
+    </style>
 </head>
 <body>
     <h1> </h1>
