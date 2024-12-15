@@ -12,26 +12,6 @@
     }
 
 
-               @media (max-width: 480px) {
-    * {
-        font-size: 10vw;
-                            } 
-               
-         .progressContainer {
-            height: 25px;
-            width: 100%;
-            max-width: 400px;
-            background-color: yellow;
-            cursor: pointer;
-            margin-top: 10px;
-                                }
-        .progressBar {
-            height: 100%;
-            width: 0;
-            background-color: blueviolet;
-                                        }
-               
-     }
 
                    
                
@@ -143,6 +123,28 @@
         .audioDiv {
 
         }
+
+           /* Move media query AFTER global styles */
+@media (max-width: 480px) {
+    * {
+        font-size: 10vw !important; /* Use !important to ensure override */
+    }
+    
+    .progressContainer {
+        height: 25px !important;
+        width: 100% !important;
+        max-width: 400px !important;
+        background-color: yellow !important;
+        cursor: pointer !important;
+        margin-top: 10px !important;
+    }
+    
+    .progressBar {
+        height: 100% !important;
+        width: 0 !important;
+        background-color: blueviolet !important;
+    }
+}
 
 
     </style>
