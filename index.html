@@ -129,7 +129,7 @@
            /* Move media query AFTER global styles */
 @media (max-width: 480px) {
     * {
-        font-size: 10vw !important; /* Use !important to ensure override */
+        font-size: 1vw !important; /* Use !important to ensure override */
     }
     
     .progressContainer {
@@ -146,6 +146,27 @@
         width: 0 !important;
         background-color: blueviolet !important;
     }
+
+       body {
+            font-family: 'MonumentGrotesk';
+            max-width: none;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: black;}
+
+        }
+           .song-item {
+            font-size: 10vw;
+            color: #d6d6d6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid rgb(154, 154, 154);
+
+            
+        }
 }
 
 
