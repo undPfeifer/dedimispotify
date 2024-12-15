@@ -130,127 +130,158 @@
     <div id="songList"></div>
 
     <script>
-        // Supabase Configuration (REPLACE WITH YOUR OWN)
-        const SUPABASE_URL = 'https://kifdamniffzvjqrioqic.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA';
+// Supabase Configuration (REPLACE WITH YOUR OWN)
+const SUPABASE_URL = 'https://kifdamniffzvjqrioqic.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA';
 
-        // Initialize Supabase Client
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase Client
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        const audioDiv = document.getElementById('audioDiv');
-        const songList = document.getElementById('songList');
-        const currentPlaying = document.getElementById('currentPlaying');
-        const progressBar = document.querySelector('.progressBar');
-        const progressContainer = document.querySelector('.progressContainer');
-        const playButton = document.querySelector('.playButton');
+const audioDiv = document.getElementById('audioDiv');
+const songList = document.getElementById('songList');
+const currentPlaying = document.getElementById('currentPlaying');
+const progressBar = document.querySelector('.progressBar');
+const progressContainer = document.querySelector('.progressContainer');
+const playButton = document.querySelector('.playButton');
 
-        let currentAudio = null; // Keep track of the current audio instance
-        let currentSongItem = null; // Keep track of the currently highlighted song
+let currentAudio = null; // Keep track of the current audio instance
+let currentSongItem = null; // Keep track of the currently highlighted song
+let songItems = []; // Store song items for shuffling
 
-        // Function to create custom audio player controls
-        function setupAudioPlayer(audioSrc, songItem) {
-            // Stop and clear the previous audio instance
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                progressBar.style.width = '0';
-                playButton.style.backgroundColor = 'blue';
-                playButton.style.borderRadius = '0%';
-            }
+// Fisher-Yates (Knuth) Shuffle Algorithm
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
-            // Remove highlight from the previous song item
-            if (currentSongItem) {
-                currentSongItem.classList.remove('playing');
-            }
+// Function to create custom audio player controls
+function setupAudioPlayer(audioSrc, songItem) {
+    // Stop and clear the previous audio instance
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+        progressBar.style.width = '0';
+        playButton.style.backgroundColor = 'blue';
+        playButton.style.borderRadius = '0%';
+    }
 
-            // Highlight the currently playing song item
-            currentSongItem = songItem;
-            currentSongItem.classList.add('playing');
+    // Remove highlight from the previous song item
+    if (currentSongItem) {
+        currentSongItem.classList.remove('playing');
+    }
 
-            // Create a new audio instance
-            const audio = new Audio(audioSrc);
-            currentAudio = audio;
+    // Highlight the currently playing song item
+    currentSongItem = songItem;
+    currentSongItem.classList.add('playing');
 
-            audio.addEventListener('timeupdate', () => {
-                const progress = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = `${progress}%`;
-            });
+    // Create a new audio instance
+    const audio = new Audio(audioSrc);
+    currentAudio = audio;
 
-            progressContainer.addEventListener('click', (event) => {
-                const width = progressContainer.offsetWidth;
-                const clickX = event.offsetX;
-                const duration = audio.duration;
+    audio.addEventListener('timeupdate', () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+    });
 
-                audio.currentTime = (clickX / width) * duration;
-            });
+    progressContainer.addEventListener('click', (event) => {
+        const width = progressContainer.offsetWidth;
+        const clickX = event.offsetX;
+        const duration = audio.duration;
 
-            playButton.onclick = () => {
-                if (audio.paused) {
-                    audio.play();
-                    playButton.style.backgroundColor = 'red';
-                    playButton.style.borderRadius = '100%';
-                } else {
-                    audio.pause();
-                    playButton.style.backgroundColor = 'blue';
-                    playButton.style.borderRadius = '0%';
-                }
-            };
+        audio.currentTime = (clickX / width) * duration;
+    });
 
-            audio.addEventListener('ended', () => {
-                playButton.style.backgroundColor = 'blue';
-                playButton.style.borderRadius = '0%';
-                if (currentSongItem) {
-                    currentSongItem.classList.remove('playing');
-                }
-            });
+    playButton.onclick = () => {
+        if (audio.paused) {
+            audio.play();
+            playButton.style.backgroundColor = 'red';
+            playButton.style.borderRadius = '100%';
+        } else {
+            audio.pause();
+            playButton.style.backgroundColor = 'blue';
+            playButton.style.borderRadius = '0%';
+        }
+    };
 
-            return audio;
+    audio.addEventListener('ended', () => {
+        playButton.style.backgroundColor = 'blue';
+        playButton.style.borderRadius = '0%';
+        if (currentSongItem) {
+            currentSongItem.classList.remove('playing');
+        }
+        
+        // Automatically play next song
+        playNextSong();
+    });
+
+    return audio;
+}
+
+// Function to play the next song
+function playNextSong() {
+    const currentIndex = songItems.findIndex(item => item === currentSongItem);
+    const nextIndex = (currentIndex + 1) % songItems.length;
+    const nextSongItem = songItems[nextIndex];
+    
+    // Simulate click on next song item
+    nextSongItem.click();
+}
+
+// Function to load and display songs
+async function loadSongs() {
+    try {
+        const { data, error } = await supabase.storage.from('music').list();
+
+        if (error) {
+            console.error('Error listing songs:', error);
+            return;
         }
 
-        // Function to load and display songs
-        async function loadSongs() {
-            try {
-                const { data, error } = await supabase.storage.from('music').list();
+        songList.innerHTML = ''; // Clear existing list
+        songItems = []; // Reset song items array
+        
+        const shuffledFiles = shuffleArray([...data]); // Create a shuffled copy of files
+        
+        for (let file of shuffledFiles) {
+            const { data: urlData } = supabase.storage.from('music').getPublicUrl(file.name);
 
-                if (error) {
-                    console.error('Error listing songs:', error);
-                    return;
-                }
+            const songItem = document.createElement('div');
+            songItem.classList.add('song-item');
+            
+            const songName = file.name.replace(/\.[^/.]+$/, "");
+            
+            songItem.innerHTML = `
+                <span>${songName}</span>
+                <button class="download-button">
+                    <a href="${urlData.publicUrl}" download="${file.name}">Download</a>
+                </button>
+            `;
 
-                songList.innerHTML = ''; // Clear existing list
-                
-                for (let file of data) {
-                    const { data: urlData } = supabase.storage.from('music').getPublicUrl(file.name);
+            songItem.addEventListener('click', () => {
+                currentPlaying.textContent = `Now Playing: ${songName}`;
+                setupAudioPlayer(urlData.publicUrl, songItem);
+                currentAudio.play();
+                playButton.style.backgroundColor = 'red';
+                playButton.style.borderRadius = '100%';
+            });
 
-                    const songItem = document.createElement('div');
-                    songItem.classList.add('song-item');
-                    
-                    const songName = file.name.replace(/\.[^/.]+$/, "");
-                    
-                    songItem.innerHTML = `
-                        <span>${songName}</span>
-                        <button class="download-button">
-                            <a href="${urlData.publicUrl}" download="${file.name}">Download</a>
-                        </button>
-                    `;
-
-                    songItem.addEventListener('click', () => {
-                        currentPlaying.textContent = `Now Playing: ${songName}`;
-                        setupAudioPlayer(urlData.publicUrl, songItem);
-                        currentAudio.play();
-                        playButton.style.backgroundColor = 'red';
-                        playButton.style.borderRadius = '100%';
-                    });
-
-                    songList.appendChild(songItem);
-                }
-            } catch (err) {
-                console.error('Unexpected error:', err);
-            }
+            songList.appendChild(songItem);
+            songItems.push(songItem);
         }
 
-        // Load songs when page loads
-        loadSongs();
-    </script>
-</body>
+        // Autoplay first song if songs are available
+        if (songItems.length > 0) {
+            const firstSongItem = songItems[0];
+            firstSongItem.click(); // Automatically start playing the first song
+        }
+    } catch (err) {
+        console.error('Unexpected error:', err);
+    }
+}
+
+// Load songs when page loads
+loadSongs();
 </html>
