@@ -21,16 +21,16 @@
            
         * { 
             
-            font-size: 4vw;
-            font-weight: 900;
-            font-family: 'MonumentGrotesk';
+
             }
             
 
         body {
+            font-size: 52px;
+            font-weight: 900;
             font-family: 'MonumentGrotesk';
-            max-width: none;
-            margin: 0 auto;
+            max-width: 100vw;
+            margin: 0px;
             padding: 20px;
             background-color: black;}
 
@@ -49,6 +49,7 @@
             background-color: black;
         }
         .song-item {
+            font-size: 52px;
             color: #d6d6d6;
             display: flex;
             justify-content: space-between;
@@ -67,6 +68,8 @@
             font-weight: bold;
         }
         #currentPlaying {
+            height: 0px;
+            overflow: hidden;
             margin-top: 20px;
             text-align: center;
             font-weight: bold;
@@ -126,38 +129,44 @@
 
         }
 
-           /* Move media query AFTER global styles */
-@media (max-width: 480px) {
-    * {
-        font-size: 1vw; /* Use !important to ensure override */
-    }
+    
+    
+        @media (max-width: 980px) {
+
     
     .progressContainer {
-        height: 25px !important;
-        width: 100% !important;
-        max-width: 400px !important;
-        background-color: yellow !important;
-        cursor: pointer !important;
-        margin-top: 10px !important;
+        height: 25px;
+        width: 100%;
+        max-width: 400px;
+        background-color: yellow;
+        cursor: pointer;
+        margin-top: 10px;
     }
     
     .progressBar {
-        height: 25px !important;
+        height: 25px ;
         width: 0 ;
-        background-color: blueviolet !important;
+        background-color: blueviolet ;
     }
 
        body {
+             font-size: 52px;
+            font-weight: 900;
             font-family: 'MonumentGrotesk';
-            max-width: none;
-            margin: 0 auto;
+            font-family: 'MonumentGrotesk';
+            max-width: 100vw;
+            margin: 0px;
             padding: 20px;
-            background-color: black;}
+            background-color: black;
+            overflow: hidden;
+            }
 
-        }
+            
+            
+
+        
            .song-item {
-            font-size: 10vw;
-            color: #d6d6d6;
+            color: blue;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -168,12 +177,33 @@
             
         }
            .song-item span {
-    white-space: normal;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    width: 100%;  /* Ensure full width */
-               font-size: 8vw;
-}
+            
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;  /* Ensure full width */
+        }
+        .song-item.playing {
+            color: red;
+            font-weight: bold;
+        }
+        .download-button {
+            opacity: 0%;
+            font-size: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 5px 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 0px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #currentPlaying {
+            margin-top: 0px;
+            text-align: left;
+            font-weight: bold;
+        }
 }
 
 
