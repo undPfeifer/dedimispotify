@@ -454,10 +454,10 @@ async function loadSongs() {
             return;
         }
 
-        songList.innerHTML = ''; // Clear existing list
-        songItems = []; // Reset song items array
+        songList.innerHTML = '';
+        songItems = [];
         
-        const shuffledFiles = shuffleArray([...data]); // Create a shuffled copy of files
+        const shuffledFiles = shuffleArray([...data]);
         
         for (let file of shuffledFiles) {
             const { data: urlData } = supabase.storage.from('music').getPublicUrl(file.name);
@@ -465,10 +465,14 @@ async function loadSongs() {
             const songItem = document.createElement('div');
             songItem.classList.add('song-item');
             
-            const songName = file.name.replace(/\.[^/.]+$/, "");
-            
-            // Check if filename ends with text.mp3
+            // Process the song name
+            let songName = file.name.replace(/\.[^/.]+$/, ""); // Remove file extension
             const isTextFile = file.name.toLowerCase().endsWith('text.mp3');
+            
+            // Remove "_text" from the display name if it's a text file
+            if (isTextFile) {
+                songName = songName.replace('_text', '');
+            }
             
             songItem.innerHTML = `
                 <span style="${isTextFile ? 'color: blue;' : ''}">${songName}</span>
@@ -492,13 +496,12 @@ async function loadSongs() {
         // Autoplay first song if songs are available
         if (songItems.length > 0) {
             const firstSongItem = songItems[0];
-            firstSongItem.click(); // Automatically start playing the first song
+            firstSongItem.click();
         }
     } catch (err) {
         console.error('Unexpected error:', err);
     }
 }
-
 // Load songs when page loads
 loadSongs();
     </script>
