@@ -25,7 +25,16 @@
 
     }
 
-                   
+    #audioControls {
+    position: sticky;
+    top: 0;
+    background-color: black; 
+    padding: 10px 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+      
                
 
            
@@ -157,6 +166,8 @@
             margin: 0px;
         }
         .audioDiv {
+            position: sticky;
+            position-anchor: 0px;
         }
 
         .timeDisplay {
@@ -238,6 +249,7 @@
 
         }
         #currentPlaying {
+
             margin-top: 0px;
             text-align: left;
             font-weight: bold;
@@ -258,13 +270,14 @@
 </head>
 <body>
     <div id="currentPlaying"></div>
-    <div id="audioDiv">
-        <div class="progressContainer">
-            <div class="progressBar"></div>
-        </div>
-        <div class="playButton"></div>
+    <div id="audioControls">
+        <div id="audioDiv">
+            <div class="progressContainer">
+                <div class="progressBar"></div>
+            </div>
+            <div class="playButton"></div>
             <span class="timeDisplay">0:00 / 0:00</span>
-            <div class="divider"> </div>
+        </div>
     </div>
     <div id="songList"></div>
 
