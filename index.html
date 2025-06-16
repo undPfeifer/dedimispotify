@@ -324,6 +324,7 @@ function shuffleArray(array) {
 
 // Function to create custom audio player controls
 function setupAudioPlayer(audioSrc, songItem) {
+    
     // Stop and clear the previous audio instance
     if (currentAudio) {
         currentAudio.pause();
@@ -374,6 +375,45 @@ function setupAudioPlayer(audioSrc, songItem) {
         if (!isNaN(audio.duration)) {
             timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
         }
+
+
+        //NEW
+if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+        title: songItem.textContent.trim(),
+        artist: 'el dimi sis',
+        album: 'webplayer',
+        artwork: [
+            { src: 'cover512.png', sizes: '512x512', type: 'image/png' }, // replace with your image path
+        ]
+    });
+
+    navigator.mediaSession.setActionHandler("play", () => {
+        audio.play();
+        playButton.style.backgroundColor = 'red';
+        playButton.style.borderRadius = '100%';
+    });
+
+    navigator.mediaSession.setActionHandler("pause", () => {
+        audio.pause();
+        playButton.style.backgroundColor = 'blue';
+        playButton.style.borderRadius = '0%';
+    });
+
+    navigator.mediaSession.setActionHandler("previoustrack", () => {
+        const currentIndex = songItems.findIndex(item => item === currentSongItem);
+        const prevIndex = (currentIndex - 1 + songItems.length) % songItems.length;
+        songItems[prevIndex].click();
+    });
+
+    navigator.mediaSession.setActionHandler("nexttrack", () => {
+        playNextSong();
+    });
+}
+
+
+
+        
     });
 
     // Update time display when metadata is loaded
