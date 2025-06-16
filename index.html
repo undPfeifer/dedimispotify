@@ -1,50 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="icon" href="favicon.png" type="image/png">
-    <link rel="manifest" href="manifest.json">
-
-
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="manifest" href="manifest.json" />
     <title>el dimi sis spotify</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-       <style>
-        
+    <style>
+        /* Your CSS unchanged */
         @font-face {
-        font-family: 'MonumentGrotesk';
-        src: url('MonumentGrotesk-Bold.otf') format('opentype');
-    }
-
-    @font-face {
-        .doto-heavy {
-  font-family: "Doto";
-  font-optical-sizing: auto;
-  font-weight: 'regular';
-  }
-
-    }
-
-    #audioControls {
-    position: sticky;
-    top: 0;
-    background-color: black; 
-    padding: 10px 0;
-    z-index: 1000;
-    width: 100%;
-}
-
-      
-               
-
-           
-
-            
-
+            font-family: 'MonumentGrotesk';
+            src: url('MonumentGrotesk-Bold.otf') format('opentype');
+        }
+        @font-face {
+            .doto-heavy {
+                font-family: "Doto";
+                font-optical-sizing: auto;
+                font-weight: 'regular';
+            }
+        }
+        #audioControls {
+            position: sticky;
+            top: 0;
+            background-color: black;
+            padding: 10px 0;
+            z-index: 1000;
+            width: 100%;
+        }
         body {
             font-size: 52px;
             font-weight: 900;
@@ -54,22 +40,14 @@
             margin: 0px;
             padding: 20px;
             background-color: black;
-        
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;  }
-
-        
+            -moz-osx-font-smoothing: grayscale;
+        }
         #songList {
             margin-top: 20px;
-
         }
-
         .songList {
-
-
             width: 100%;
-            
-           
             background-color: black;
         }
         .song-item {
@@ -85,8 +63,6 @@
             width: 100%;
             word-break: break-all;
             box-sizing: border-box;
-
-            
         }
         .song-item:hover {
             color: white;
@@ -113,20 +89,20 @@
             height: 8px;
             width: 100%;
             max-width: 400px;
-            background-color: #0A04B0;
+            background-color: #0a04b0;
             cursor: pointer;
             margin-top: 4px;
-            position: relative; /* Added for better positioning */
-            touch-action: none; /* Prevents scrolling while dragging on mobile */
+            position: relative;
+            touch-action: none;
         }
         .progressBar {
             height: 8px;
             width: 0;
             background-color: white;
-            position: absolute; /* Added for smoother dragging */
-        left: 0;
-        top: 0;
-        pointer-events: none; /* Ensures clicks pass through to container */
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
         }
         .playButton {
             margin-top: 2px;
@@ -140,7 +116,7 @@
             font-size: 0px;
             font-family: 'Courier New', Courier, monospace;
             padding: 0px;
-            background-color: #5F5657;
+            background-color: #5f5657;
             color: white;
             border: none;
             border-radius: 0px;
@@ -153,7 +129,6 @@
         .download-button a {
             font-family: Arial, Helvetica, sans-serif;
             font-weight: 300;
-
             text-transform: lowercase;
             font-size: 0px;
             font-weight: 200;
@@ -173,103 +148,75 @@
             position: sticky;
             position-anchor: 0px;
         }
-
         .timeDisplay {
-        display: inline-block;
-        color: white;
-        font-size: 18px;
-        margin-left: 10px;
-        align-items: flex-end;
-        vertical-align: middle;
+            display: inline-block;
+            color: white;
+            font-size: 18px;
+            margin-left: 10px;
+            align-items: flex-end;
+            vertical-align: middle;
         }
-        .divider{
-            /*border-bottom: 1px solid white;*/
+        .divider {
             margin-top: 3px;
         }
-    
-    
         @media (max-width: 480px) {
-
-    
-    .progressContainer {
-        height: 20px;
-        width: 100%;
-        max-width: 400px;
-        cursor: pointer;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    
-    .progressBar {
-        height: 20px ;
-        width: 0 ;
-    }
-
-       body {
-             font-size: 31px;
-
-            max-width: 100vw;
-            margin: 0px;
-            padding: 6px;
-            background-color: black;
-            border: 1px solid white;
+            .progressContainer {
+                height: 20px;
+                width: 100%;
+                max-width: 400px;
+                cursor: pointer;
+                margin-top: 10px;
+                margin-bottom: 10px;
             }
-
-            
-            
-
-        
-           .song-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px;
-            cursor: pointer;
-            border-bottom: 1px solid rgb(154, 154, 154);
-
-            
+            .progressBar {
+                height: 20px;
+                width: 0;
+            }
+            body {
+                font-size: 31px;
+                max-width: 100vw;
+                margin: 0px;
+                padding: 6px;
+                background-color: black;
+                border: 1px solid white;
+            }
+            .song-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 4px;
+                cursor: pointer;
+                border-bottom: 1px solid rgb(154, 154, 154);
+            }
+            .song-item span {
+                white-space: normal;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                word-break: break-all;
+                width: 100%;
+            }
+            .song-item.playing {
+                color: red;
+                font-weight: bold;
+            }
+            .download-button {
+                opacity: 100%;
+                font-size: 0px;
+                font-family: 'Courier New', Courier, monospace;
+                color: white;
+                border: none;
+                border-radius: 100px;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+            #currentPlaying {
+                margin-top: 0px;
+                text-align: left;
+                font-weight: bold;
+            }
+            .audioDiv {}
+            .divider {}
         }
-           .song-item span {
-            
-            white-space: normal;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-all;
-            width: 100%;  /* Ensure full width */
-        }
-        .song-item.playing {
-            color: red;
-            font-weight: bold;
-        }
-        .download-button {
-            opacity: 100%;
-            font-size: 0px;
-            font-family: 'Courier New', Courier, monospace;
-            color: white;
-            border: none;
-            border-radius: 100px;
-            cursor: pointer;
-            margin-left: 10px;
-
-        }
-        #currentPlaying {
-
-            margin-top: 0px;
-            text-align: left;
-            font-weight: bold;
-        }
-        .audioDiv {
-        }
-
-        .divider {
-            /* margin-top: 10px;
-            margin-bottom: -20px;
-            border-bottom: 1px solid white;*/
-        }
-
-}
-
-
     </style>
 </head>
 <body>
@@ -286,267 +233,216 @@
     <div id="songList"></div>
 
     <script>
-// Supabase Configuration (REPLACE WITH YOUR OWN)
-const SUPABASE_URL = 'https://kifdamniffzvjqrioqic.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA';
+        // Supabase Configuration (REPLACE WITH YOUR OWN)
+        const SUPABASE_URL = 'https://kifdamniffzvjqrioqic.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZmRhbW5pZmZ6dmpxcmlvcWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM4NTQ5NTgsImV4cCI6MjA0OTQzMDk1OH0.v4_-ZDTWMgFpClLf7aEXO3KpqDfTjNFWuoFT4fijQIA';
 
-// Initialize Supabase Client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Initialize Supabase Client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const audioDiv = document.getElementById('audioDiv');
-const songList = document.getElementById('songList');
-const currentPlaying = document.getElementById('currentPlaying');
-const progressBar = document.querySelector('.progressBar');
-const progressContainer = document.querySelector('.progressContainer');
-const playButton = document.querySelector('.playButton');
-const timeDisplay = document.querySelector('.timeDisplay');
+        const songList = document.getElementById('songList');
+        const currentPlaying = document.getElementById('currentPlaying');
+        const progressBar = document.querySelector('.progressBar');
+        const progressContainer = document.querySelector('.progressContainer');
+        const playButton = document.querySelector('.playButton');
+        const timeDisplay = document.querySelector('.timeDisplay');
 
-let currentAudio = null;
-let currentSongItem = null;
-let songItems = [];
-let isDragging = false;
+        let currentAudio = null;
+        let currentSongItem = null;
+        let songItems = [];
+        let isDragging = false;
 
-// Helper function to format time
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-// Fisher-Yates (Knuth) Shuffle Algorithm
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// Function to create custom audio player controls
-function setupAudioPlayer(audioSrc, songItem) {
-    
-    // Stop and clear the previous audio instance
-    if (currentAudio) {
-        currentAudio.pause();
-        currentAudio = null;
-        progressBar.style.width = '0';
-        playButton.style.backgroundColor = 'blue';
-        playButton.style.borderRadius = '0%';
-        timeDisplay.textContent = '0:00 / 0:00';
-    }
-
-    // Remove highlight from the previous song item
-    if (currentSongItem) {
-        currentSongItem.classList.remove('playing');
-    }
-
-    // Highlight the currently playing song item
-    currentSongItem = songItem;
-    currentSongItem.classList.add('playing');
-
-    // Create a new audio instance
-    const audio = new Audio(audioSrc);
-    currentAudio = audio;
-
-    // Add mouse/touch event listeners for dragging
-    progressContainer.addEventListener('mousedown', startDragging);
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('mouseup', stopDragging);
-    
-    // Touch events for mobile support
-    progressContainer.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startDragging(e.touches[0]);
-    });
-    document.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        drag(e.touches[0]);
-    });
-    document.addEventListener('touchend', stopDragging);
-
-audio.addEventListener('timeupdate', () => {
-    if (isNaN(audio.duration) || audio.duration === 0) return;
-
-    if (!isDragging) {
-        const progress = (audio.currentTime / audio.duration) * 100;
-        progressBar.style.width = `${progress}%`;
-    }
-
-    timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-});
-
-
-
-        //NEW
-if ('mediaSession' in navigator) {
-    navigator.mediaSession.metadata = new MediaMetadata({
-        title: songItem.textContent.trim(),
-        artist: 'el dimi sis',
-        album: 'webplayer',
-        artwork: [
-            { src: 'cover512.png', sizes: '512x512', type: 'image/png' }, // replace with your image path
-        ]
-    });
-
-    navigator.mediaSession.setActionHandler("play", () => {
-        audio.play();
-        playButton.style.backgroundColor = 'red';
-        playButton.style.borderRadius = '100%';
-    });
-
-    navigator.mediaSession.setActionHandler("pause", () => {
-        audio.pause();
-        playButton.style.backgroundColor = 'blue';
-        playButton.style.borderRadius = '0%';
-    });
-
-    navigator.mediaSession.setActionHandler("previoustrack", () => {
-        const currentIndex = songItems.findIndex(item => item === currentSongItem);
-        const prevIndex = (currentIndex - 1 + songItems.length) % songItems.length;
-        songItems[prevIndex].click();
-    });
-
-    navigator.mediaSession.setActionHandler("nexttrack", () => {
-        playNextSong();
-    });
-
-
-
-
-        
-
-    // Update time display when metadata is loaded
-    audio.addEventListener('loadedmetadata', () => {
-        timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
-    });
-
-    function startDragging(event) {
-        isDragging = true;
-        drag(event);
-    }
-
-    function drag(event) {
-        if (isDragging && audio.duration) {
-            const rect = progressContainer.getBoundingClientRect();
-            const width = progressContainer.offsetWidth;
-            let clickX = (event.clientX - rect.left);
-            
-            // Ensure clickX stays within bounds
-            clickX = Math.max(0, Math.min(clickX, width));
-            
-            const percentage = (clickX / width) * 100;
-            progressBar.style.width = `${percentage}%`;
-            
-            // Update audio time
-            const newTime = (clickX / width) * audio.duration;
-            audio.currentTime = newTime;
-            
-            // Update time display while dragging
-            timeDisplay.textContent = `${formatTime(newTime)} / ${formatTime(audio.duration)}`;
-        }
-    }
-
-    function stopDragging() {
-        isDragging = false;
-    }
-
-    playButton.onclick = () => {
-        if (audio.paused) {
-            audio.play();
-            playButton.style.backgroundColor = 'red';
-            playButton.style.borderRadius = '100%';
-        } else {
-            audio.pause();
-            playButton.style.backgroundColor = 'blue';
-            playButton.style.borderRadius = '0%';
-        }
-    };
-
-    audio.addEventListener('ended', () => {
-        playButton.style.backgroundColor = 'blue';
-        playButton.style.borderRadius = '0%';
-        timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
-        if (currentSongItem) {
-            currentSongItem.classList.remove('playing');
-        }
-        
-        // Automatically play next song
-        playNextSong();
-    });
-
-    return audio;
-}
-
-// Function to play the next song
-function playNextSong() {
-    const currentIndex = songItems.findIndex(item => item === currentSongItem);
-    const nextIndex = (currentIndex + 1) % songItems.length;
-    const nextSongItem = songItems[nextIndex];
-    
-    // Simulate click on next song item
-    nextSongItem.click();
-}
-
-// Function to load and display songs
-async function loadSongs() {
-    try {
-        const { data, error } = await supabase.storage.from('music').list();
-
-        if (error) {
-            console.error('Error listing songs:', error);
-            return;
+        // Helper function to format time
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
 
-        songList.innerHTML = '';
-        songItems = [];
-        
-        const shuffledFiles = shuffleArray([...data]);
-        
-        for (let file of shuffledFiles) {
-            const { data: urlData } = supabase.storage.from('music').getPublicUrl(file.name);
-
-            const songItem = document.createElement('div');
-            songItem.classList.add('song-item');
-            
-            // Process the song name
-            let songName = file.name.replace(/\.[^/.]+$/, ""); // Remove file extension
-            const isTextFile = file.name.toLowerCase().endsWith('text.mp3');
-            
-            // Remove "_text" from the display name if it's a text file
-            if (isTextFile) {
-                songName = songName.replace('_text', '');
+        // Fisher-Yates Shuffle Algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
-            
-            songItem.innerHTML = `
-                <span style="${isTextFile ? 'color: blue;' : ''}">${songName}</span>
-                <button class="download-button">
-                    <a href="${urlData.publicUrl}" download="${file.name}">Download</a>
-                </button>
-            `;
+            return array;
+        }
 
-            songItem.addEventListener('click', () => {
-                currentPlaying.textContent = `Now Playing: ${songName}`;
-                setupAudioPlayer(urlData.publicUrl, songItem);
-                currentAudio.play();
-                playButton.style.backgroundColor = 'red';
-                playButton.style.borderRadius = '100%';
+        function setupAudioPlayer(audioSrc, songItem) {
+            // Stop previous audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                progressBar.style.width = '0';
+                playButton.style.backgroundColor = 'blue';
+                playButton.style.borderRadius = '0%';
+                timeDisplay.textContent = '0:00 / 0:00';
+            }
+
+            if (currentSongItem) {
+                currentSongItem.classList.remove('playing');
+            }
+
+            currentSongItem = songItem;
+            currentSongItem.classList.add('playing');
+
+            const audio = new Audio(audioSrc);
+            currentAudio = audio;
+
+            audio.addEventListener('timeupdate', () => {
+                if (isNaN(audio.duration) || audio.duration === 0) return;
+                if (!isDragging) {
+                    const progress = (audio.currentTime / audio.duration) * 100;
+                    progressBar.style.width = `${progress}%`;
+                }
+                timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
             });
 
-            songList.appendChild(songItem);
-            songItems.push(songItem);
+            audio.addEventListener('loadedmetadata', () => {
+                timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
+            });
+
+            audio.addEventListener('ended', () => {
+                playButton.style.backgroundColor = 'blue';
+                playButton.style.borderRadius = '0%';
+                timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
+                if (currentSongItem) currentSongItem.classList.remove('playing');
+                playNextSong();
+            });
+
+            // Media Session API support
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: songItem.textContent.trim(),
+                    artist: 'el dimi sis',
+                    album: 'webplayer',
+                    artwork: [
+                        { src: 'cover512.png', sizes: '512x512', type: 'image/png' }
+                    ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => {
+                    audio.play();
+                    playButton.style.backgroundColor = 'red';
+                    playButton.style.borderRadius = '100%';
+                });
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    audio.pause();
+                    playButton.style.backgroundColor = 'blue';
+                    playButton.style.borderRadius = '0%';
+                });
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    const currentIndex = songItems.findIndex(item => item === currentSongItem);
+                    const prevIndex = (currentIndex - 1 + songItems.length) % songItems.length;
+                    songItems[prevIndex].click();
+                });
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    playNextSong();
+                });
+            }
+
+            playButton.onclick = () => {
+                if (audio.paused) {
+                    audio.play();
+                    playButton.style.backgroundColor = 'red';
+                    playButton.style.borderRadius = '100%';
+                } else {
+                    audio.pause();
+                    playButton.style.backgroundColor = 'blue';
+                    playButton.style.borderRadius = '0%';
+                }
+            };
+
+            return audio;
         }
 
-        // Autoplay first song if songs are available
-        if (songItems.length > 0) {
-            const firstSongItem = songItems[0];
-            firstSongItem.click();
+        // Dragging functionality for progress bar
+        function startDragging(event) {
+            isDragging = true;
+            drag(event);
         }
-    } catch (err) {
-        console.error('Unexpected error:', err);
-    }
-}
-// Load songs when page loads
-loadSongs();
+
+        function drag(event) {
+            if (!isDragging || !currentAudio || !currentAudio.duration) return;
+
+            const rect = progressContainer.getBoundingClientRect();
+            const width = progressContainer.offsetWidth;
+            let clickX = event.clientX - rect.left;
+
+            if (clickX < 0) clickX = 0;
+            if (clickX > width) clickX = width;
+
+            const percentage = (clickX / width) * 100;
+            progressBar.style.width = `${percentage}%`;
+
+            currentAudio.currentTime = (clickX / width) * currentAudio.duration;
+
+            timeDisplay.textContent = `${formatTime(currentAudio.currentTime)} / ${formatTime(currentAudio.duration)}`;
+        }
+
+        function stopDragging() {
+            isDragging = false;
+        }
+
+        // Add event listeners for progress bar dragging once
+        progressContainer.addEventListener('mousedown', startDragging);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDragging);
+        // Touch support
+        progressContainer.addEventListener('touchstart', e => {
+            e.preventDefault();
+            startDragging(e.touches[0]);
+        });
+        document.addEventListener('touchmove', e => {
+            e.preventDefault();
+            drag(e.touches[0]);
+        });
+        document.addEventListener('touchend', e => {
+            stopDragging();
+        });
+
+        // Play next song helper
+        function playNextSong() {
+            if (!currentSongItem) return;
+            const currentIndex = songItems.findIndex(item => item === currentSongItem);
+            const nextIndex = (currentIndex + 1) % songItems.length;
+            songItems[nextIndex].click();
+        }
+
+        // Load songs from Supabase storage bucket "music"
+        async function loadSongs() {
+            try {
+                const { data, error } = await supabase.storage.from('music').list();
+
+                if (error) {
+                    console.error('Error listing songs:', error);
+                    return;
+                }
+
+                songList.innerHTML = '';
+                songItems = [];
+
+                const shuffledFiles = shuffleArray([...data]);
+
+                for (const file of shuffledFiles) {
+                    const { data: urlData } = supabase.storage.from('music').getPublicUrl(file.name);
+                    const songItem = document.createElement('div');
+                    songItem.classList.add('song-item');
+                    songItem.textContent = file.name;
+                    songList.appendChild(songItem);
+                    songItems.push(songItem);
+
+                    songItem.addEventListener('click', () => {
+                        setupAudioPlayer(urlData.publicUrl, songItem);
+                        currentPlaying.textContent = file.name;
+                    });
+                }
+            } catch (err) {
+                console.error('Failed to load songs:', err);
+            }
+        }
+
+        loadSongs();
     </script>
 </body>
 </html>
